@@ -1,5 +1,9 @@
 package com.kasenov.libpro.simplelibrary.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerator;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,26 +16,30 @@ import java.util.List;
 @Table(name = "books")
 @Getter
 @Setter
+@JsonIdentityInfo( scope = Book.class,
+        generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @Column(name = "title")
     private String title;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
+    //@JsonManagedReference
     @JoinTable(name = "books_genres", joinColumns = @JoinColumn(name = "book_id"),
     inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private List<Genre> genres;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
+    //@JsonManagedReference
     @JoinTable(name = "books_authors", joinColumns = @JoinColumn(name = "book_id"),
-    inverseJoinColumns = @JoinColumn(name = "author_id"))
+            inverseJoinColumns = @JoinColumn(name = "author_id"))
     private List<Author> authors;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "language_id")
     private Language language;
 

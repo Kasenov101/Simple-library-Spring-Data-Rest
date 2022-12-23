@@ -1,6 +1,7 @@
 package com.kasenov.libpro.simplelibrary.Service;
 
 import com.kasenov.libpro.simplelibrary.Entity.Client;
+import com.kasenov.libpro.simplelibrary.ExceptionHandler.CannotRemoveException;
 import com.kasenov.libpro.simplelibrary.ExceptionHandler.CannotSaveException;
 import com.kasenov.libpro.simplelibrary.ExceptionHandler.NotFoundException;
 import com.kasenov.libpro.simplelibrary.Repository.ClientRepository;
@@ -29,7 +30,7 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
-    public Client getClientById(int id) throws NotFoundException {
+    public Client getClientById(long id) throws NotFoundException {
         return clientRepository.findById(id).orElseThrow(() ->
                 new NotFoundException(String.format("Cannot find client by id:",id)));
     }
@@ -43,7 +44,7 @@ public class ClientServiceImpl implements ClientService{
             throw new CannotSaveException(e.getMessage());
         }
     }
-
+    @Override
     public ResponseEntity<Objects> updateClient(Client client)
             throws CannotSaveException, NotFoundException {
         if (clientRepository.findById(client.getId()).isEmpty()) throw
@@ -60,12 +61,14 @@ public class ClientServiceImpl implements ClientService{
 
     }
 
-    public ResponseEntity<Objects> removeClient(int id) throws NotFoundException {
+    public ResponseEntity<Objects> removeClient(long id) throws NotFoundException, CannotRemoveException {
+        if (clientRepository.findById(id).isEmpty()) throw
+        new NotFoundException(String.format("Client with id: %s not found", id));
         try {
             clientRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
-            throw new NotFoundException(
+            throw new CannotRemoveException(
                     String.format("client with id: %s not found", id));
         }
     }

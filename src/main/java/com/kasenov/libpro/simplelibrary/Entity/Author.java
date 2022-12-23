@@ -1,8 +1,11 @@
 package com.kasenov.libpro.simplelibrary.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +14,9 @@ import java.util.List;
 @Table(name = "authors")
 @Getter
 @Setter
+@ToString
+@JsonIdentityInfo(scope = Author.class,
+        generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Author {
 
     @Id
@@ -23,10 +29,8 @@ public class Author {
     @Column(name = "l_name")
     private String lastName;
 
-    @Column(name = "surname")
-    private String surname;
-
     @ManyToMany
+    //@JsonBackReference
     @JoinTable(name = "books_authors", joinColumns = @JoinColumn(name = "author_id"),
     inverseJoinColumns = @JoinColumn(name = "book_id"))
     private List<Book> books;

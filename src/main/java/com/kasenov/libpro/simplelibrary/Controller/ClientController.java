@@ -2,12 +2,15 @@ package com.kasenov.libpro.simplelibrary.Controller;
 
 
 import com.kasenov.libpro.simplelibrary.Entity.Client;
+import com.kasenov.libpro.simplelibrary.ExceptionHandler.CannotRemoveException;
 import com.kasenov.libpro.simplelibrary.ExceptionHandler.CannotSaveException;
 import com.kasenov.libpro.simplelibrary.ExceptionHandler.NotFoundException;
 import com.kasenov.libpro.simplelibrary.Service.ClientService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/clients")
@@ -25,14 +28,12 @@ public class ClientController {
     }
 
     @GetMapping("/{id}")
-    public Client getClientById(@PathVariable int id) throws NotFoundException {
+    public Client getClientById(@PathVariable long id) throws NotFoundException {
         return clientService.getClientById(id);
     }
 
     @PostMapping
-    public void saveClients(@RequestBody Client client)
-            throws CannotSaveException {
-
+    public void saveClients(@RequestBody Client client) throws CannotSaveException {
         clientService.saveClient(client);
     }
 
@@ -43,7 +44,7 @@ public class ClientController {
     }
 
     @DeleteMapping("/{id}")
-    public void removeClient(@PathVariable("id") int id) throws NotFoundException {
+    public void removeClient(@PathVariable("id") long id) throws NotFoundException, CannotRemoveException {
         clientService.removeClient(id);
     }
 }

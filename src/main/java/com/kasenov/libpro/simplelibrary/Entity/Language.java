@@ -11,7 +11,7 @@ import lombok.Setter;
 public class Language {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @Column(name = "language")
     private String language;

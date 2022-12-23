@@ -12,7 +12,7 @@ public class LibraryWarehouse {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @OneToOne
     @JoinColumn(name = "book_id")
