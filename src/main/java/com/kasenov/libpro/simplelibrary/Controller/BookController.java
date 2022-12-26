@@ -31,13 +31,8 @@ public class BookController {
     }
 
     @PatchMapping
-    public void updateBook(@RequestBody Book book) throws CannotSaveException, NotFoundException {
-        bookService.updateBook(book);
-    }
-
-    @PostMapping
     public void saveBook(@RequestBody Book book) throws CannotSaveException {
-        bookService.saveBook(book);
+        bookService.saveOrUpdateBook(book);
     }
 
     @DeleteMapping("/{id}")

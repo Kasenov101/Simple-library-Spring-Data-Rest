@@ -1,8 +1,6 @@
 package com.kasenov.libpro.simplelibrary.Service;
 
-import com.kasenov.libpro.simplelibrary.Entity.Author;
 import com.kasenov.libpro.simplelibrary.Entity.Book;
-import com.kasenov.libpro.simplelibrary.Entity.Genre;
 import com.kasenov.libpro.simplelibrary.ExceptionHandler.CannotRemoveException;
 import com.kasenov.libpro.simplelibrary.ExceptionHandler.CannotSaveException;
 import com.kasenov.libpro.simplelibrary.ExceptionHandler.NotFoundException;
@@ -38,23 +36,9 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public ResponseEntity<Objects> saveBook(Book book) throws CannotSaveException {
+    public ResponseEntity<Objects> saveOrUpdateBook(Book book) throws CannotSaveException {
         try{
             bookRepository.save(book);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
-            throw new CannotSaveException(e.getMessage());
-        }
-    }
-
-    @Override
-    public ResponseEntity<Objects> updateBook(Book book) throws NotFoundException, CannotSaveException {
-        if (bookRepository.findById(book.getId()).isEmpty()) throw
-                new NotFoundException(String.format("book with id: %d not found", book.getId()));
-        try {
-            bookRepository.updateBook(book.getTitle(), (Genre) book.getGenres(),
-                    (Author) book.getAuthors(), book.getLanguage(), book.getReleaseDate(),
-                    book.getId());
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             throw new CannotSaveException(e.getMessage());

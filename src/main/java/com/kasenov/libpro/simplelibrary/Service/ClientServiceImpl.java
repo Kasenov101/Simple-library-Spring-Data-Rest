@@ -36,29 +36,13 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
-    public ResponseEntity<Objects> saveClient(Client client) throws CannotSaveException {
+    public ResponseEntity<Objects> saveOrUpdateClient(Client client) throws CannotSaveException {
         try {
             clientRepository.saveAndFlush(client);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             throw new CannotSaveException(e.getMessage());
         }
-    }
-    @Override
-    public ResponseEntity<Objects> updateClient(Client client)
-            throws CannotSaveException, NotFoundException {
-        if (clientRepository.findById(client.getId()).isEmpty()) throw
-        new NotFoundException(String.format("client with id: %s not found", client.getId()));
-
-        try {
-            clientRepository.updateClient(client.getFirstName(),client.getLastName(),
-                    client.getPassportId(), client.getPhoneNum(), client.getAddress(),
-                    client.getId());
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
-            throw new CannotSaveException(e.getMessage());
-        }
-
     }
 
     public ResponseEntity<Objects> removeClient(long id) throws NotFoundException, CannotRemoveException {

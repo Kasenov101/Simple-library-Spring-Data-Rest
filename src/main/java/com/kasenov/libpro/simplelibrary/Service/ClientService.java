@@ -15,9 +15,7 @@ public interface ClientService {
 
     Client getClientById(long id) throws NotFoundException;
 
-    ResponseEntity<Objects> saveClient(Client client) throws CannotSaveException;
-
-    ResponseEntity<Objects> updateClient(Client client) throws CannotSaveException, NotFoundException;
+    ResponseEntity<Objects> saveOrUpdateClient(Client client) throws CannotSaveException;
 
     ResponseEntity<Objects> removeClient(long id) throws NotFoundException, CannotRemoveException;
 
