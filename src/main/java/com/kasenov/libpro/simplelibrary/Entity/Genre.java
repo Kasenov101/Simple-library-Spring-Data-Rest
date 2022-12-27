@@ -11,11 +11,7 @@ import java.util.List;
 @Table(name = "genres")
 @Getter
 @Setter
-public class Genre {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public class Genre extends AbstractEntity{
 
     @Column(name = "genre_name")
     private String genreName;

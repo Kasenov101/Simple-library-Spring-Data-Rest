@@ -9,11 +9,7 @@ import lombok.Setter;
 @Table(name = "clients")
 @Getter
 @Setter
-public class Client {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public class Client extends AbstractEntity{
 
     @Column(name = "f_name")
     private String firstName;
