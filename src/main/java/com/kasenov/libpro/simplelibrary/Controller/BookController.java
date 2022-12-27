@@ -5,7 +5,6 @@ import com.kasenov.libpro.simplelibrary.Entity.Book;
 import com.kasenov.libpro.simplelibrary.ExceptionHandler.CannotRemoveException;
 import com.kasenov.libpro.simplelibrary.ExceptionHandler.CannotSaveException;
 import com.kasenov.libpro.simplelibrary.ExceptionHandler.NotFoundException;
-import com.kasenov.libpro.simplelibrary.Service.BookService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

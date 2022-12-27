@@ -3,7 +3,6 @@ package com.kasenov.libpro.simplelibrary.Controller;
 import com.kasenov.libpro.simplelibrary.Entity.Author;
 import com.kasenov.libpro.simplelibrary.ExceptionHandler.CannotSaveException;
 import com.kasenov.libpro.simplelibrary.ExceptionHandler.NotFoundException;
-import com.kasenov.libpro.simplelibrary.Service.AuthorService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
