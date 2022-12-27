@@ -6,7 +6,7 @@ public class NotFoundException extends Exception{
         super(message);
     }
 
-    public NotFoundException(String objectName, long id) {
-        super(String.format("%s with id: not found", objectName, id));
+    public NotFoundException(long id) {
+        super(String.format("Object with id: %d not found", id));
     }
 }
