@@ -8,7 +8,11 @@ import lombok.Setter;
 @Table(name = "library_warehouse")
 @Getter
 @Setter
-public class LibraryWarehouse extends AbstractEntity{
+public class LibraryWarehouse {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     @OneToOne
     @JoinColumn(name = "book_id")

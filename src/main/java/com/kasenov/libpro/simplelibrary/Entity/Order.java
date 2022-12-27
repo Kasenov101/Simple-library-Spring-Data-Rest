@@ -12,7 +12,11 @@ import java.util.List;
 @Table(name = "orders")
 @Getter
 @Setter
-public class Order extends AbstractEntity{
+public class Order {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     @ManyToOne
     @JoinColumn(name = "client_id")

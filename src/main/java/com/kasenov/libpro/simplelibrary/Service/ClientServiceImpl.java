@@ -1,6 +1,7 @@
 package com.kasenov.libpro.simplelibrary.Service;
 
 import com.kasenov.libpro.simplelibrary.Entity.Client;
+import com.kasenov.libpro.simplelibrary.ExceptionHandler.CannotRemoveException;
 import com.kasenov.libpro.simplelibrary.ExceptionHandler.CannotSaveException;
 import com.kasenov.libpro.simplelibrary.ExceptionHandler.NotFoundException;
 import com.kasenov.libpro.simplelibrary.Repository.ClientRepository;
@@ -29,13 +30,13 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
-    public Client getClientById(int id) throws NotFoundException {
+    public Client getClientById(long id) throws NotFoundException {
         return clientRepository.findById(id).orElseThrow(() ->
                 new NotFoundException(String.format("Cannot find client by id:",id)));
     }
 
     @Override
-    public ResponseEntity<Objects> saveClient(Client client) throws CannotSaveException {
+    public ResponseEntity<Objects> saveOrUpdateClient(Client client) throws CannotSaveException {
         try {
             clientRepository.saveAndFlush(client);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -44,28 +45,14 @@ public class ClientServiceImpl implements ClientService{
         }
     }
 
-    public ResponseEntity<Objects> updateClient(Client client)
-            throws CannotSaveException, NotFoundException {
-        if (clientRepository.findById(client.getId()).isEmpty()) throw
-        new NotFoundException(String.format("client with id: %s not found", client.getId()));
-
-        try {
-            clientRepository.updateClient(client.getFirstName(),client.getLastName(),
-                    client.getPassportId(), client.getPhoneNum(), client.getAddress(),
-                    client.getId());
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
-            throw new CannotSaveException(e.getMessage());
-        }
-
-    }
-
-    public ResponseEntity<Objects> removeClient(int id) throws NotFoundException {
+    public ResponseEntity<Objects> removeClient(long id) throws NotFoundException, CannotRemoveException {
+        if (clientRepository.findById(id).isEmpty()) throw
+        new NotFoundException(String.format("Client with id: %s not found", id));
         try {
             clientRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
-            throw new NotFoundException(
+            throw new CannotRemoveException(
                     String.format("client with id: %s not found", id));
         }
     }

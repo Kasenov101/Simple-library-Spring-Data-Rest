@@ -8,7 +8,10 @@ import lombok.Setter;
 @Table(name = "languages")
 @Getter
 @Setter
-public class Language extends AbstractEntity{
+public class Language {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     @Column(name = "language")
     private String language;

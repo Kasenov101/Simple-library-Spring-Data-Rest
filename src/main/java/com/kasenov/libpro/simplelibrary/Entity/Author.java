@@ -11,7 +11,11 @@ import java.util.List;
 @Table(name = "authors")
 @Getter
 @Setter
-public class Author extends AbstractEntity{
+public class Author {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     @Column(name = "f_name")
     private String firstName;
