@@ -8,7 +8,7 @@ import lombok.Setter;
 @Table(name = "library_warehouse")
 @Getter
 @Setter
-public class LibraryWarehouse extends AbstractEntity{
+public class Warehouse extends AbstractEntity{
 
     @OneToOne
     @JoinColumn(name = "book_id")
