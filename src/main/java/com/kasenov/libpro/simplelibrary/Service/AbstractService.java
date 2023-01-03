@@ -36,7 +36,7 @@ public abstract class AbstractService<E extends AbstractEntity, R extends Common
             throw new CannotSaveException(String.format("Object with id: %d already exist", entity.getId()));
 
         try {
-                this.repository.save(entity);
+                this.repository.saveAndFlush(entity);
                 return new ResponseEntity<>(entity, HttpStatus.CREATED);
             } catch (Exception e) {
                 throw new CannotSaveException(e.getMessage());
@@ -54,7 +54,7 @@ public abstract class AbstractService<E extends AbstractEntity, R extends Common
         }
     }
 
-    public ResponseEntity<Long> delete(long id) throws NotFoundException, CannotRemoveException {
+    public ResponseEntity<Long> removeById(long id) throws NotFoundException, CannotRemoveException {
         if (this.repository.findById(id).isEmpty())
             throw new NotFoundException(id);
 

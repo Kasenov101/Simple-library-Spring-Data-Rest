@@ -40,6 +40,6 @@ public abstract class AbstractController<E extends AbstractEntity, R extends Com
 
     @Override
     public ResponseEntity<Long> removeById(long id) throws CannotRemoveException, NotFoundException {
-        return service.delete(id);
+        return service.removeById(id);
     }
 }
