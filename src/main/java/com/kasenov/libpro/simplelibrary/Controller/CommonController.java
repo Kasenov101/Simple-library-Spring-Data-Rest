@@ -17,11 +17,11 @@ public interface CommonController<E extends AbstractEntity>{
     @GetMapping("/{id}")
     public E getById(@PathVariable("id") long id) throws NotFoundException;
 
-    @PutMapping
-    public ResponseEntity<E> save(E entity) throws CannotSaveException;
+    @PostMapping
+    public ResponseEntity<E> save(@RequestBody E entity) throws CannotSaveException;
 
-    @PatchMapping
-    public ResponseEntity<E> update(E entity) throws CannotSaveException, NotFoundException;
+    @PutMapping
+    public ResponseEntity<E> update(@RequestBody E entity) throws CannotSaveException, NotFoundException;
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> removeById(@PathVariable("id") long id) throws CannotRemoveException, NotFoundException;
