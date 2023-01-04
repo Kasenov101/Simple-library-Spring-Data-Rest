@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -23,8 +23,9 @@ public class Order extends AbstractEntity{
     private List<Book> books;
 
     @Column(name = "date_of_receiving")
-    private Date dateOfReceiving;
+    private LocalDate dateOfReceiving;
 
     @Column(name = "return_date")
-    private Date returnDate;
+    private LocalDate returnDate;
+
 }
