@@ -23,8 +23,10 @@ public class Order extends AbstractEntity{
     @JoinColumn(name = "client_id")
     private Client client;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "order_id")
+    @ManyToMany
+    @JoinTable(name = "books_orders",
+            joinColumns = @JoinColumn(name = "order_id", referencedColumnName = "id"),
+    inverseJoinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"))
     private List<Book> books;
 
     @Column(name = "date_of_receiving")

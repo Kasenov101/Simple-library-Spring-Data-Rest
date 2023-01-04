@@ -1,11 +1,8 @@
 package com.kasenov.libpro.simplelibrary.Entity;
 
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
 
 @Entity
 @Table(name = "clients")
@@ -27,7 +24,4 @@ public class Client extends AbstractEntity{
 
     @Column(name = "address")
     private String address;
-
-    @OneToMany(mappedBy = "client")
-    private List<Order> orders;
 }
