@@ -28,4 +28,9 @@ public class Order extends AbstractEntity{
     @Column(name = "return_date")
     private LocalDate returnDate;
 
+    @Column(name = "returned_date")
+    private LocalDate returnedDate;
+
+    @Column(name = "returned_on_time")
+    private boolean returnedOnTime;
 }
