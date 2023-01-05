@@ -38,6 +38,6 @@ public class Order extends AbstractEntity{
     @Column(name = "returned_date")
     private LocalDate returnedDate;
 
-    @Column(name = "returned_on_time")
-    private boolean returnedOnTime;
+    @Column(name = "is_returned_on_time")
+    private boolean isReturnedOnTime;
 }
