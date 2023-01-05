@@ -2,6 +2,7 @@ package com.kasenov.libpro.simplelibrary.Service;
 
 import com.kasenov.libpro.simplelibrary.Entity.Book;
 import com.kasenov.libpro.simplelibrary.Entity.Order;
+import com.kasenov.libpro.simplelibrary.ExceptionHandler.CannotRemoveException;
 import com.kasenov.libpro.simplelibrary.ExceptionHandler.CannotSaveException;
 import com.kasenov.libpro.simplelibrary.ExceptionHandler.NotFoundException;
 import com.kasenov.libpro.simplelibrary.Repository.OrderRepository;
@@ -15,8 +16,8 @@ import java.util.List;
 @Service
 public class OrderService extends AbstractService<Order, OrderRepository>{
 
-    private BookService bookService;
-    private OrderRepository orderRepository;
+    private final BookService bookService;
+    private final OrderRepository orderRepository;
         protected OrderService(OrderRepository repository, BookService bookService) {
         super(repository);
         this.orderRepository = repository;
@@ -46,5 +47,29 @@ public class OrderService extends AbstractService<Order, OrderRepository>{
         } catch (Exception e) {
             throw new CannotSaveException(e.getMessage());
         }
+    }
+
+    @Override
+    public ResponseEntity<Long> removeById(long id) throws NotFoundException, CannotRemoveException, CannotSaveException {
+        Order order = getById(id);
+        if (order.isOrderIsCompleted()) throw new CannotRemoveException("Order is already completed");
+        order.setReturnedDate(LocalDate.now());
+        if (order.getReturnDate().equals(order.getReturnedDate())) {
+            order.setReturnedOnTime(true);
+        }
+
+        List<Book> books = order.getBooks().stream()
+                .map(book -> {
+                    try {
+                        return bookService.getById(book.getId());
+                    } catch (NotFoundException e) {
+                        throw new RuntimeException(e.getMessage());
+                    }})
+                .peek(book -> book.getWarehouse().setQuantity(((book.getWarehouse().getQuantity()) +1)))
+                .toList();
+
+        order.setOrderIsCompleted(true);
+        orderRepository.save(order);
+        return new ResponseEntity<>(order.getId(),HttpStatus.OK);
     }
 }
