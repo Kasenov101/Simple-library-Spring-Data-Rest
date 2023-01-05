@@ -40,4 +40,7 @@ public class Order extends AbstractEntity{
 
     @Column(name = "is_returned_on_time")
     private boolean isReturnedOnTime;
+
+    @Column(name = "order_is_completed")
+    private boolean orderIsCompleted;
 }
