@@ -29,7 +29,7 @@ public abstract class AbstractController<E extends AbstractEntity, R extends Com
     }
 
     @Override
-    public ResponseEntity<E> save(E entity) throws CannotSaveException {
+    public ResponseEntity<E> save(E entity) throws CannotSaveException, NotFoundException {
         return service.save(entity);
     }
 
@@ -39,7 +39,7 @@ public abstract class AbstractController<E extends AbstractEntity, R extends Com
     }
 
     @Override
-    public ResponseEntity<Long> removeById(long id) throws CannotRemoveException, NotFoundException {
+    public ResponseEntity<Long> removeById(long id) throws CannotRemoveException, NotFoundException, CannotSaveException {
         return service.removeById(id);
     }
 }
