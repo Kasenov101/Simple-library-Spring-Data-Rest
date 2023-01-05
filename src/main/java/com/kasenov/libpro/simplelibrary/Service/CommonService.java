@@ -13,9 +13,9 @@ public interface CommonService<E extends AbstractEntity> {
 
     E getById(long id) throws NotFoundException;
 
-    ResponseEntity<E> save(E entity) throws CannotSaveException;
+    ResponseEntity<E> save(E entity) throws CannotSaveException, NotFoundException;
 
     ResponseEntity<E> update(E entity) throws NotFoundException, CannotSaveException;
 
-    ResponseEntity<Long> removeById(long id) throws NotFoundException, CannotRemoveException;
+    ResponseEntity<Long> removeById(long id) throws NotFoundException, CannotRemoveException, CannotSaveException;
 }
