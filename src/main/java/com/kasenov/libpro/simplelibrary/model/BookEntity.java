@@ -1,9 +1,9 @@
 package com.kasenov.libpro.simplelibrary.model;
 
-import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -12,10 +12,8 @@ import java.util.List;
 @Table(name = "books")
 @Getter
 @Setter
-@JsonIdentityInfo(
-        scope = Book.class, generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
-public class Book extends AbstractEntity{
+@Component
+public class BookEntity extends AbstractEntity{
 
     @Column(name = "title")
     private String title;
@@ -24,22 +22,22 @@ public class Book extends AbstractEntity{
     @JoinTable(name = "books_genres",
             joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
     inverseJoinColumns = @JoinColumn(name = "genre_id", referencedColumnName = "id"))
-    private List<Genre> genres;
+    private List<GenreEntity> genreEntities;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "books_authors",
             joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id"))
-    private List<Author> authors;
+    private List<AuthorEntity> authorEntities;
 
     @ManyToOne
     @JoinColumn(name = "language_id")
-    private Language language;
+    private LanguageEntity languageEntity;
 
     @Column(name = "release_date")
     private LocalDate releaseDate;
 
-    @OneToOne(mappedBy = "book", cascade = {CascadeType.ALL})
-    private Warehouse warehouse;
+    @OneToOne(mappedBy = "bookEntity", cascade = {CascadeType.ALL})
+    private WarehouseEntity warehouseEntity;
 
 }

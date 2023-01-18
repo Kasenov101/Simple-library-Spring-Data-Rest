@@ -1,11 +1,9 @@
 package com.kasenov.libpro.simplelibrary.model;
 
-
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,20 +12,18 @@ import java.util.List;
 @Table(name = "orders")
 @Getter
 @Setter
-@JsonIdentityInfo(
-        scope = Book.class, generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
-public class Order extends AbstractEntity{
+@Component
+public class OrderEntity extends AbstractEntity{
 
     @ManyToOne
     @JoinColumn(name = "client_id")
-    private Client client;
+    private ClientEntity clientEntity;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "books_orders",
             joinColumns = @JoinColumn(name = "order_id", referencedColumnName = "id"),
     inverseJoinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"))
-    private List<Book> books;
+    private List<BookEntity> bookEntities;
 
     @Column(name = "date_of_receiving")
     private LocalDate dateOfReceiving;

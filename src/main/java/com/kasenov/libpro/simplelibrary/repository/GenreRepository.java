@@ -1,6 +1,6 @@
 package com.kasenov.libpro.simplelibrary.repository;
 
-import com.kasenov.libpro.simplelibrary.model.Genre;
+import com.kasenov.libpro.simplelibrary.model.GenreEntity;
 
-public interface GenreRepository extends CommonRepository<Genre>{
+public interface GenreRepository extends CommonRepository<GenreEntity>{
 }
