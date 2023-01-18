@@ -5,13 +5,11 @@ import com.kasenov.libpro.simplelibrary.exceptionHandler.CannotRemoveException;
 import com.kasenov.libpro.simplelibrary.exceptionHandler.CannotSaveException;
 import com.kasenov.libpro.simplelibrary.exceptionHandler.NotFoundException;
 import com.kasenov.libpro.simplelibrary.repository.CommonRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-public abstract class AbstractService<E extends AbstractEntity, R extends CommonRepository<E>>
-        implements CommonService<E> {
+public abstract class AbstractService<E extends AbstractEntity,
+        R extends CommonRepository<E>> implements CommonService<E> {
 
     private final R repository;
 
@@ -27,40 +25,41 @@ public abstract class AbstractService<E extends AbstractEntity, R extends Common
         }
 
     public E getById(long id) throws NotFoundException {
-        return this.repository.findById(id).orElseThrow(() ->
+         return this.repository.findById(id)
+                 .orElseThrow(() ->
             new NotFoundException(id));
     }
 
-    public ResponseEntity<E> save(E entity) throws CannotSaveException, NotFoundException {
+    public E save(E entity) throws CannotSaveException, NotFoundException {
         if (this.repository.findById(entity.getId()).isPresent())
             throw new CannotSaveException(String.format("Object with id: %d already exist", entity.getId()));
 
         try {
                 this.repository.saveAndFlush(entity);
-                return new ResponseEntity<>(entity, HttpStatus.CREATED);
+                return entity;
             } catch (Exception e) {
                 throw new CannotSaveException(e.getMessage());
             }
         }
 
-    public ResponseEntity<E> update(E entity) throws NotFoundException, CannotSaveException {
+    public E update(E entity) throws NotFoundException, CannotSaveException {
         if (this.repository.findById(entity.getId()).isEmpty())
             throw new NotFoundException(entity.getId());
 
         try {
-                return new ResponseEntity<E>(repository.saveAndFlush(entity), HttpStatus.OK);
+            return repository.saveAndFlush(entity);
             } catch (Exception e) {
                 throw new CannotSaveException(e.getMessage());
         }
     }
 
-    public ResponseEntity<Long> removeById(long id) throws NotFoundException, CannotRemoveException, CannotSaveException {
+    public Long removeById(long id) throws NotFoundException, CannotRemoveException, CannotSaveException {
         if (this.repository.findById(id).isEmpty())
             throw new NotFoundException(id);
 
         try {
                 this.repository.deleteById(id);
-                return new ResponseEntity<>(id, HttpStatus.OK);
+                return id;
             } catch (Exception e) {
                 throw new CannotRemoveException(e.getMessage());
         }
