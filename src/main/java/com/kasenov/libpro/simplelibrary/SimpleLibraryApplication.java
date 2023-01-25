@@ -13,7 +13,7 @@ public class SimpleLibraryApplication {
     private static ModelMapper modelMapper;
 
     @Bean
-    public ModelMapper getModelMapper() {
+    public ModelMapper modelMapper() {
         if (modelMapper == null) {
             modelMapper = new ModelMapper();
         }

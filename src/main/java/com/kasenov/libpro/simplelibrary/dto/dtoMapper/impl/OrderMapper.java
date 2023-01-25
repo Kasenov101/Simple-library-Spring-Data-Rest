@@ -1,12 +1,12 @@
 package com.kasenov.libpro.simplelibrary.dto.dtoMapper.impl;
 
-import com.kasenov.libpro.simplelibrary.dto.Book;
-import com.kasenov.libpro.simplelibrary.dto.Client;
-import com.kasenov.libpro.simplelibrary.dto.Order;
+import com.kasenov.libpro.simplelibrary.dto.dtoImpl.Book;
+import com.kasenov.libpro.simplelibrary.dto.dtoImpl.Client;
+import com.kasenov.libpro.simplelibrary.dto.dtoImpl.Order;
 import com.kasenov.libpro.simplelibrary.dto.dtoMapper.ComplexDtoMapper;
-import com.kasenov.libpro.simplelibrary.model.BookEntity;
-import com.kasenov.libpro.simplelibrary.model.ClientEntity;
-import com.kasenov.libpro.simplelibrary.model.OrderEntity;
+import com.kasenov.libpro.simplelibrary.model.EntityImpl.BookEntity;
+import com.kasenov.libpro.simplelibrary.model.EntityImpl.ClientEntity;
+import com.kasenov.libpro.simplelibrary.model.EntityImpl.OrderEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

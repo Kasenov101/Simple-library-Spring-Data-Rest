@@ -5,9 +5,10 @@ import com.kasenov.libpro.simplelibrary.exceptionHandler.CannotRemoveException;
 import com.kasenov.libpro.simplelibrary.exceptionHandler.CannotSaveException;
 import com.kasenov.libpro.simplelibrary.exceptionHandler.NotFoundException;
 import com.kasenov.libpro.simplelibrary.repository.CommonRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
+@Transactional(readOnly = true)
 public abstract class AbstractService<E extends AbstractEntity,
         R extends CommonRepository<E>> implements CommonService<E> {
 
@@ -30,6 +31,7 @@ public abstract class AbstractService<E extends AbstractEntity,
             new NotFoundException(id));
     }
 
+    @Transactional
     public E save(E entity) throws CannotSaveException, NotFoundException {
         if (this.repository.findById(entity.getId()).isPresent())
             throw new CannotSaveException(String.format("Object with id: %d already exist", entity.getId()));
@@ -42,6 +44,7 @@ public abstract class AbstractService<E extends AbstractEntity,
             }
         }
 
+    @Transactional
     public E update(E entity) throws NotFoundException, CannotSaveException {
         if (this.repository.findById(entity.getId()).isEmpty())
             throw new NotFoundException(entity.getId());
@@ -53,6 +56,7 @@ public abstract class AbstractService<E extends AbstractEntity,
         }
     }
 
+    @Transactional
     public Long removeById(long id) throws NotFoundException, CannotRemoveException, CannotSaveException {
         if (this.repository.findById(id).isEmpty())
             throw new NotFoundException(id);

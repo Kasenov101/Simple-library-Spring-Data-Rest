@@ -13,18 +13,18 @@ import java.util.List;
 public interface CommonController<D extends AbstractDto>{
 
     @GetMapping
-    public List<D> getAll() throws NotFoundException;
+    List<D> getAll() throws NotFoundException;
 
     @GetMapping("/{id}")
-    public D getById(@PathVariable("id") long id) throws NotFoundException;
+    D getById(@PathVariable("id") long id) throws NotFoundException;
 
     @PostMapping
-    public ResponseEntity<D> save(@Valid @RequestBody D dto) throws CannotSaveException, NotFoundException;
+    ResponseEntity<D> save(@Valid @RequestBody D dto) throws CannotSaveException, NotFoundException;
 
     @PutMapping
-    public ResponseEntity<D> update(@Valid @RequestBody D dto) throws CannotSaveException, NotFoundException;
+    ResponseEntity<D> update(@Valid @RequestBody D dto) throws CannotSaveException, NotFoundException;
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Long> removeById(@PathVariable("id") long id)
+    ResponseEntity<Long> removeById(@PathVariable("id") long id)
                                             throws CannotRemoveException, NotFoundException, CannotSaveException;
 }

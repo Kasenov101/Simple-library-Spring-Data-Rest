@@ -1,10 +1,10 @@
 package com.kasenov.libpro.simplelibrary.dto.dtoMapper.impl;
 
-import com.kasenov.libpro.simplelibrary.dto.Book;
-import com.kasenov.libpro.simplelibrary.dto.Warehouse;
+import com.kasenov.libpro.simplelibrary.dto.dtoImpl.Book;
+import com.kasenov.libpro.simplelibrary.dto.dtoImpl.Warehouse;
 import com.kasenov.libpro.simplelibrary.dto.dtoMapper.ComplexDtoMapper;
-import com.kasenov.libpro.simplelibrary.model.BookEntity;
-import com.kasenov.libpro.simplelibrary.model.WarehouseEntity;
+import com.kasenov.libpro.simplelibrary.model.EntityImpl.BookEntity;
+import com.kasenov.libpro.simplelibrary.model.EntityImpl.WarehouseEntity;
 import org.springframework.stereotype.Component;
 
 @Component

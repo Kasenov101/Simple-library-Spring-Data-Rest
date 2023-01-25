@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 public interface SimpleDtoMapper {
 
-    static final ModelMapper modelMapper = new ModelMapper();
+    ModelMapper modelMapper = new ModelMapper();
 
     static <S,D> D map(S source, Class<D> outClass) {
         return modelMapper.map(source,outClass);

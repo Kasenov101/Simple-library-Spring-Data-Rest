@@ -18,47 +18,47 @@ public class AbstractController<E extends AbstractEntity,R extends CommonReposit
         S extends AbstractService<E,R>, D extends AbstractDto>
         implements CommonController< D>{
 
-    protected S service;
-    private final D dto;
-    private final E entity;
+    protected final S SERVICE;
+    private final D DTO;
+    private final E ENTITY;
 
-    public AbstractController(S service, D dto, E entity) {
-        this.service = service;
-        this.dto = dto;
-        this.entity = entity;
+    public AbstractController(S SERVICE, D DTO, E ENTITY) {
+        this.SERVICE = SERVICE;
+        this.DTO = DTO;
+        this.ENTITY = ENTITY;
     }
 
     @SuppressWarnings("unchecked")
     public List<D> getAll() throws NotFoundException {
-        return (List<D>) service.getAll().stream()
-                .map(i -> SimpleDtoMapper.map(i,dto.getClass()))
+        return (List<D>) SERVICE.getAll().stream()
+                .map(i -> SimpleDtoMapper.map(i, DTO.getClass()))
                 .collect(Collectors.toList());
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public D getById(long id) throws NotFoundException {
-        return (D) SimpleDtoMapper.map(service.getById(id),dto.getClass());
+        return (D) SimpleDtoMapper.map(SERVICE.getById(id), DTO.getClass());
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public ResponseEntity<D> save(D dto) throws CannotSaveException, NotFoundException {
-        E entity = (E) SimpleDtoMapper.map(dto,this.entity.getClass());
-        service.save(entity);
+        E entity = (E) SimpleDtoMapper.map(dto,this.ENTITY.getClass());
+        SERVICE.save(entity);
         return (ResponseEntity<D>) new ResponseEntity<>(SimpleDtoMapper.map(entity,dto.getClass()), HttpStatus.OK);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public ResponseEntity<D> update(D dto) throws CannotSaveException, NotFoundException {
-        E entity = (E) SimpleDtoMapper.map(dto,this.entity.getClass());
-        service.update(entity);
+        E entity = (E) SimpleDtoMapper.map(dto,this.ENTITY.getClass());
+        SERVICE.update(entity);
         return (ResponseEntity<D>) new ResponseEntity<>(SimpleDtoMapper.map(entity,dto.getClass()), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<Long> removeById(long id) throws CannotRemoveException, NotFoundException, CannotSaveException {
-        return new ResponseEntity<>(service.removeById(id),HttpStatus.OK);
+        return new ResponseEntity<>(SERVICE.removeById(id),HttpStatus.OK);
     }
 }

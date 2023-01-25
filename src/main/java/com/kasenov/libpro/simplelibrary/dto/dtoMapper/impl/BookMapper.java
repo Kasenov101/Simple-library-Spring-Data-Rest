@@ -1,14 +1,14 @@
 package com.kasenov.libpro.simplelibrary.dto.dtoMapper.impl;
 
-import com.kasenov.libpro.simplelibrary.dto.*;
+import com.kasenov.libpro.simplelibrary.dto.dtoImpl.*;
 import com.kasenov.libpro.simplelibrary.dto.dtoMapper.ComplexDtoMapper;
-import com.kasenov.libpro.simplelibrary.model.*;
+import com.kasenov.libpro.simplelibrary.model.EntityImpl.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class BookMapper implements ComplexDtoMapper<BookEntity,Book> {
+public class BookMapper implements ComplexDtoMapper<BookEntity, Book> {
 
     @Override
     public Book toDto(BookEntity entity) {
