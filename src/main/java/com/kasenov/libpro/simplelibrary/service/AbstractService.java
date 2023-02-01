@@ -32,7 +32,7 @@ public abstract class AbstractService<E extends AbstractEntity,
     }
 
     @Transactional
-    public E save(E entity) throws CannotSaveException, NotFoundException {
+    public E save(E entity) throws CannotSaveException {
         if (this.repository.findById(entity.getId()).isPresent())
             throw new CannotSaveException(String.format("Object with id: %d already exist", entity.getId()));
 

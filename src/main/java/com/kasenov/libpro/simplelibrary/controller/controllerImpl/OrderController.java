@@ -39,10 +39,9 @@ public class OrderController implements CommonController<Order> {
     }
 
     @Override
-    public ResponseEntity<Order> save(Order dto) throws CannotSaveException, NotFoundException {
+    public ResponseEntity<Order> save(Order dto) throws CannotSaveException {
         OrderEntity entity = MAPPER.toEntity(dto);
-        SERVICE.save(entity);
-        return new ResponseEntity<>(MAPPER.toDto(entity),HttpStatus.CREATED);
+        return new ResponseEntity<>(MAPPER.toDto(SERVICE.save(entity)),HttpStatus.CREATED);
     }
 
     @Override

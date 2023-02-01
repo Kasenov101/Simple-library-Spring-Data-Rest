@@ -26,10 +26,9 @@ public class OrderService extends AbstractService<OrderEntity, OrderRepository> 
     }
 
     @Override
-    public OrderEntity save(OrderEntity entity) throws CannotSaveException, NotFoundException {
-            checkAndPrepareToSaveOrder(entity);
+    public OrderEntity save(OrderEntity entity) throws CannotSaveException {
          try {
-             return ORDER_REPOSITORY.saveAndFlush(entity);
+            return ORDER_REPOSITORY.saveAndFlush(checkAndPrepareToSaveOrder(entity));
         } catch (Exception e) {
             throw new CannotSaveException(e.getMessage());
         }
@@ -55,10 +54,14 @@ public class OrderService extends AbstractService<OrderEntity, OrderRepository> 
         return new ResponseEntity<>(order.getId(),HttpStatus.OK);
     }
 
-    private void checkAndPrepareToSaveOrder(OrderEntity entity) throws CannotSaveException {
+    private OrderEntity checkAndPrepareToSaveOrder(OrderEntity order) throws CannotSaveException {
+            OrderEntity entity = order;
         entity.setDateOfReceiving(LocalDate.now());
-        if (entity.getReturnDate().isBefore(entity.getDateOfReceiving()))
-            throw new CannotSaveException("Return date must be after date of receiving");
+        if (entity.getReturnDate().isBefore(entity.getDateOfReceiving()) |
+        entity.getReturnDate().isAfter(entity.getDateOfReceiving().plusDays(30)))
+            throw new CannotSaveException("""
+                    Return date must be after date of receiving and not more than
+                    a 30 days""");
         List<BookEntity> books = entity.getBookEntities().stream()
                 .map((b1) -> {
                     try {
@@ -71,18 +74,21 @@ public class OrderService extends AbstractService<OrderEntity, OrderRepository> 
                     b1.getWarehouseEntity().setAtClients(b1.getWarehouseEntity().getAtClients() + 1);
                 })
                 .toList();
+        entity.setBookEntities(books);
+        System.out.println(entity.getBookEntities().get(0).getWarehouseEntity().getQuantity());
+        return entity;
     }
 
 
     private void checkAndPrepareToCloseOrder(OrderEntity order) throws CannotRemoveException {
         if (order.isOrderIsCompleted())
-            throw new CannotRemoveException("OrderEntity is already completed");
+            throw new CannotRemoveException("Order is already completed");
         order.setReturnedDate(LocalDate.now());
 
-        if (order.getReturnDate().equals(order.getReturnedDate()) |
+        if (order.getReturnDate().equals(order.getReturnedDate()) ||
                 order.getReturnedDate().isBefore(order.getReturnDate())) {
             order.setReturnedOnTime(true);
-        }
+        } else order.setReturnedOnTime(false);
         List<BookEntity> books = order.getBookEntities().stream()
                 .peek(book -> {
                     book.getWarehouseEntity().setQuantity(((book.getWarehouseEntity().getQuantity()) +1));
